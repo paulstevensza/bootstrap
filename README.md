@@ -10,7 +10,7 @@ $ ./bootstrap.sh
 
 from Terminal.
 
-Todo:
+## Todo
 
 * Fix anything tagged as a BUG.
 * Create a default Python virtualenv.
