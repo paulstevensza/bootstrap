@@ -126,12 +126,10 @@ doing "checking for existing homebrew installations"
 brew_loc=$(which brew) 2>&1 > /dev/null
 if [[ $? != 0 ]]; then
   doing "running homebrew installation"
-  /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+  /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)";ok
   if [[ $? != 0 ]]; then
     error "sorry. can't install homebrew. $0 abort!"
     exit 2
-  else
-    ok "installed homebrew. soldiering on..."
   fi
 fi;
 
@@ -145,11 +143,9 @@ brew bundle > /dev/null 2>&1;ok
 runner "Setting shell to brew variant of ZSH"
 ###
 CURRSHELL=$(dscl . -read /Users/$USER UserShell | awk '{print $2}')
-doing "setting shell to brew zsh..."
 if [[ "$CURRSHELL" != "/usr/local/bin/zsh" ]]; then
-  runner "setting your shell to the zsh from brew..."
-  sudo dscl . -change /Users/$USER UserShell $SHELL /usr/local/bin/zsh > /dev/null 2>&1
-  ok
+  doing "setting your shell to the zsh from brew..."
+  sudo dscl . -change /Users/$USER UserShell $SHELL /usr/local/bin/zsh > /dev/null 2>&1;ok
 fi
 
 ###
@@ -187,18 +183,9 @@ done;
 popd > /dev/null 2>&1
 
 ###
-runner "Installing packages from NPM"
-###
-if [[ ! which vtop ]]; then
-  sudo npm install -g vtop
-fi;
-
-###
 runner "Force quitting System Preferences panes (if any are open)"
 ###
-doing "shutting any open system preference panes..."
-osascript -e 'tell application "System Preferences" to quit'
-ok
+osascript -e 'tell application "System Preferences" to quit';ok
 
 ###
 runner "Securing macOS"
