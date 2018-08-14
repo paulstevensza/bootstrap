@@ -154,10 +154,11 @@ sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.captive.c
 doing "disabling wake on lan..."
 sudo systemsetup -setwakeonnetworkaccess off > /dev/null 2>&1;ok
 
-doing "disabling file sharing..."
-# Disable file-sharing via SMB and AFP
-sudo launchctl unload -w /System/Library/LaunchDaemons/com.apple.smbd.plist
-sudo launchctl unload -w /System/Library/LaunchDaemons/com.apple.AppleFileServer.plist;ok
+# BUG: Services not found
+# doing "disabling file sharing..."
+# # Disable file-sharing via SMB and AFP
+# sudo launchctl unload -w /System/Library/LaunchDaemons/com.apple.smbd.plist
+# sudo launchctl unload -w /System/Library/LaunchDaemons/com.apple.AppleFileServer.plist;ok
 
 doing "disabling password hints..."
 # No passwords hint
@@ -278,7 +279,7 @@ runner "Installing additional fonts"
 ###
 
 doing "accessing and installing fonts..."
-pushd ./fonts/ > /dev/null 2>&1
+pushd ~/.bootstrap/fonts/ > /dev/null 2>&1
 chmod +x install.sh
 ./install.sh
 popd > /dev/null 2>&1
@@ -350,30 +351,30 @@ fi;
 ok
 
 doing "apm disable language-python"
-apm disable language-python;ok
+apm disable language-python
 
 doing "apm install magicpython..."
-apm install magicpython;ok
+apm install magicpython
 doing "apm install atom-jinja2..."
-apm install atom-jinja2;ok
+apm install atom-jinja2
 doing "apm install autocomplete-python..."
-apm install autocomplete-python;ok
+apm install autocomplete-python
 doing "apm install autocomplete-sql..."
-apm install autocomplete-sql;ok
+apm install autocomplete-sql
 doing "apm install git-plus..."
-apm install git-plus;ok
+apm install git-plus
 doing "apm install kite..."
-apm install kite;ok
+apm install kite
 doing "apm install language-docker..."
-apm install language-docker;ok
+apm install language-docker
 doing "apm install language-pgsql..."
-apm install language-pgsql;ok
+apm install language-pgsql
 doing "apm install language-protobuf..."
-apm install language-protobuf;ok
+apm install language-protobuf
 doing "apm install language-sql-mysql..."
-apm install language-sql-mysql;ok
+apm install language-sql-mysql
 doing "apm install markdown-preview-plus..."
-apm install markdown-preview-plus;ok
+apm install markdown-preview-plus
 
 ###
 runner "We're done! Thank you for playing."
