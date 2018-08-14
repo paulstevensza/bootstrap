@@ -374,3 +374,57 @@ ok
 action "wget https://someonewhocares.org/hosts/hosts -O /etc/hosts"
 sudo wget https://someonewhocares.org/hosts/hosts -O /etc/hosts
 ok
+
+###
+runner "Configuring Atom"
+###
+
+doing "checking to see if atom is installed..."
+atom_loc=$(which atom) 2>&1 > /dev/null
+if [[  $? != 0 ]]; then
+  read -r -p "Please install Atom properly and press y to continue." response
+
+  if [[ $response =~ (y|Y) ]]; then
+    continue
+  fi
+fi;
+ok
+
+doing "checking to see if apm is installed..."
+apm_loc=$(which apm) 2>&1 > /dev/null
+if [[ $? != 0 ]]; then
+  read -r -p "Please install apm from the command pallete and press y to continue." response
+
+  if [[ $response =~ (y|Y) ]]; then
+    continue
+  fi
+fi;
+ok
+
+action "apm disable language-python"
+apm disable language-python;ok
+
+action "apm install magicpython..."
+apm install magicpython;ok
+action "apm install atom-jinja2..."
+apm install atom-jinja2;ok
+action "apm install autocomplete-python..."
+apm install autocomplete-python;ok
+action "apm install autocomplete-sql..."
+apm install autocomplete-sql;ok
+action "apm install git-plus..."
+apm install git-plus;ok
+action "apm install kite..."
+apm install kite;ok
+action "apm install language-docker..."
+apm install language-docker;ok
+action "apm install language-pgsql..."
+apm install language-pgsql;ok
+action "apm install language-protobuf..."
+apm install language-protobuf;ok
+action "apm install language-sql-mysql..."
+apm install language-sql-mysql;ok
+action "apm install markdown-preview-plus..."
+apm install markdown-preview-plus;ok
+
+doing "prompting to set up appearance while we're here..."
