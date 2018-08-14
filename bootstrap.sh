@@ -46,83 +46,9 @@ sudo -v
 while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 
 ###
-runner "Configuring git."
-###
-grep 'user = GITHUBUSER' ~/.bootstrap/home/.gitconfig > /dev/null 2>&1
-if [[ $? == 0 ]]; then
-  read -r -p "What is your github.com username?" githubuser
-
-   fullname=`osascript -e "long user name of (system info)"`
-
-   if [[ -n "$fullname" ]]; then
-     lastname=$(echo $fullname | awk '{print $2}');
-     firstname=$(echo $fullname | awk '{print $1}');
-   fi
-
-   if [[ -z $lastname ]]; then
-     lastname=`dscl . -read /Users/$(whoami) | grep LastName | sed "s/LastName: //"`
-   fi
-
-   if [[ -z $firstname ]]; then
-     firstname=`dscl . -read /Users/$(whoami) | grep FirstName | sed "s/FirstName: //"`
-   fi
-   email=`dscl . -read /Users/$(whoami)  | grep EMailAddress | sed "s/EMailAddress: //"`
-
-   if [[ ! "$firstname" ]];then
-    response='n'
-  else
-    echo -e "I see that your full name is $COL_YELLOW$firstname $lastname$COL_RESET"
-    read -r -p "Is this correct? [Y|n] " response
-  fi
-
-  if [[ $response =~ ^(no|n|N) ]];then
-    read -r -p "What is your first name? " firstname
-    read -r -p "What is your last name? " lastname
-  fi
-  fullname="$firstname $lastname"
-
-  bot "Great $fullname, "
-
-  if [[ ! $email ]];then
-    response='n'
-  else
-    echo -e "The best I can make out, your email address is $COL_YELLOW$email$COL_RESET"
-    read -r -p "Is this correct? [Y|n] " response
-  fi
-
-  if [[ $response =~ ^(no|n|N) ]];then
-    read -r -p "What is your email? " email
-    if [[ ! $email ]];then
-      error "you must provide an email to configure .gitconfig"
-      exit 1
-    fi
-  fi
-
-  running "replacing items in .gitconfig with your info ($COL_YELLOW$fullname, $email, $githubuser$COL_RESET)"
-
-  # test if gnu-sed or MacOS sed
-
-  sed -i "s/GITHUBFULLNAME/$firstname $lastname/" ./home/.gitconfig > /dev/null 2>&1 | true
-  if [[ ${PIPESTATUS[0]} != 0 ]]; then
-    echo
-    running "looks like you are using MacOS sed rather than gnu-sed, accommodating"
-    sed -i '' "s/GITHUBFULLNAME/$firstname $lastname/" ./home/.gitconfig;
-    sed -i '' 's/GITHUBEMAIL/'$email'/' ./home/.gitconfig;
-    sed -i '' 's/GITHUBUSER/'$githubuser'/' ./home/.gitconfig;
-    ok
-  else
-    echo
-    bot "looks like you are already using gnu-sed. woot!"
-    sed -i 's/GITHUBEMAIL/'$email'/' ./home/.gitconfig;
-    sed -i 's/GITHUBUSER/'$githubuser'/' ./home/.gitconfig;
-  fi
-fi
-
-###
 runner "Installing Homebrew"
 ###
 
-doing "checking for existing homebrew installations"
 brew_loc=$(which brew) 2>&1 > /dev/null
 if [[ $? != 0 ]]; then
   doing "running homebrew installation"
@@ -133,10 +59,7 @@ if [[ $? != 0 ]]; then
   fi
 fi;
 
-###
-runner "Updating brew and installing software"
-###
-action "brew bundle"
+doing "Updating brew and installing software"
 brew bundle > /dev/null 2>&1;ok
 
 ###
@@ -149,16 +72,11 @@ if [[ "$CURRSHELL" != "/usr/local/bin/zsh" ]]; then
 fi
 
 ###
-runner "Installing OhMyZSH"
+runner "Installing ohmyzsh"
 ###
 if [[ ! -d "$HOME/.oh-my-zsh" ]]; then
   doing "installing ohmyzsh..."
-  sh -c "$(wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
-  if [[ $? != 0 ]]; then
-    error "oh dear. we had a problem. $0 abort!"
-    exit 2
-  else
-    ok "installed ohmyzsh"
+  sh -c "$(wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)";ok
 fi;
 
 ###
@@ -176,9 +94,7 @@ for file in .*; do
     mv ~/$file ~/.dotfiles/backup/$file
     echo "backed up $file to ~/.dotfiles/backup/$file"
   fi
-  unlink ~/$file > /dev/null 2>&1
-  ln -s ~/.bootstrap/home/$file ~/$file
-  echo -en '\tlinked';ok
+  cp ~/.bootstrap/home/$file ~/$file
 done;
 popd > /dev/null 2>&1
 
