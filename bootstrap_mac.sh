@@ -46,6 +46,79 @@ sudo -v
 while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 
 ###
+runner "Configuring git."
+###
+grep 'user = GITHUB user' ./home/.gitconfig > /dev/null 2>&1
+if [[ $? == 0 ]]; then
+  read -r -p "What is your github.com username?" githubuser
+
+   fullname=`osascript -e "long user name of (system info)"`
+
+   if [[ -n "$fullname" ]]; then
+     lastname=$(echo $fullname | awk '{print $2}');
+     firstname=$(echo $fullname | awk '{print $1}');
+   fi
+
+   if [[ -z $lastname ]]; then
+     lastname=`dscl . -read /Users/$(whoami) | grep LastName | sed "s/LastName: //"`
+   fi
+
+   if [[ -z $firstname ]]; then
+     firstname=`dscl . -read /Users/$(whoami) | grep FirstName | sed "s/FirstName: //"`
+   fi
+   email=`dscl . -read /Users/$(whoami)  | grep EMailAddress | sed "s/EMailAddress: //"`
+
+   if [[ ! "$firstname" ]];then
+    response='n'
+  else
+    echo -e "I see that your full name is $COL_YELLOW$firstname $lastname$COL_RESET"
+    read -r -p "Is this correct? [Y|n] " response
+  fi
+
+  if [[ $response =~ ^(no|n|N) ]];then
+    read -r -p "What is your first name? " firstname
+    read -r -p "What is your last name? " lastname
+  fi
+  fullname="$firstname $lastname"
+
+  bot "Great $fullname, "
+
+  if [[ ! $email ]];then
+    response='n'
+  else
+    echo -e "The best I can make out, your email address is $COL_YELLOW$email$COL_RESET"
+    read -r -p "Is this correct? [Y|n] " response
+  fi
+
+  if [[ $response =~ ^(no|n|N) ]];then
+    read -r -p "What is your email? " email
+    if [[ ! $email ]];then
+      error "you must provide an email to configure .gitconfig"
+      exit 1
+    fi
+  fi
+
+  running "replacing items in .gitconfig with your info ($COL_YELLOW$fullname, $email, $githubuser$COL_RESET)"
+
+  # test if gnu-sed or MacOS sed
+
+  sed -i "s/GITHUBFULLNAME/$firstname $lastname/" ./homedir/.gitconfig > /dev/null 2>&1 | true
+  if [[ ${PIPESTATUS[0]} != 0 ]]; then
+    echo
+    running "looks like you are using MacOS sed rather than gnu-sed, accommodating"
+    sed -i '' "s/GITHUBFULLNAME/$firstname $lastname/" ./homedir/.gitconfig;
+    sed -i '' 's/GITHUBEMAIL/'$email'/' ./homedir/.gitconfig;
+    sed -i '' 's/GITHUBUSER/'$githubuser'/' ./homedir/.gitconfig;
+    ok
+  else
+    echo
+    bot "looks like you are already using gnu-sed. woot!"
+    sed -i 's/GITHUBEMAIL/'$email'/' ./homedir/.gitconfig;
+    sed -i 's/GITHUBUSER/'$githubuser'/' ./homedir/.gitconfig;
+  fi
+fi
+
+###
 runner "Installing Homebrew"
 ###
 
@@ -65,24 +138,8 @@ fi;
 ###
 runner "Updating brew and installing software"
 ###
-if which brew > /dev/null; then
-  ok
-  doing "updating brew packages..."
-  brew update
-  if [[ $? != 0 ]]; then
-    error "oops. failed to update packages. $0 abort!"
-  else
-    ok "update successful"
-  fi
-  doing "installing stuffs from Brewfile. this is going to take a minute. tea?"
-  brew bundle
-  if [[ $? != 0 ]]; then
-    error "oops. we appear to have some issues. $0 abort!"
-    exit 2
-  else
-    ok "installed apps, taps and casks"
-  fi
-fi;
+action "brew bundle"
+brew bundle > /dev/null 2>&1;ok
 
 ###
 runner "Setting shell to brew variant of ZSH"
@@ -380,7 +437,7 @@ runner "Configuring Atom"
 ###
 
 doing "checking to see if atom is installed..."
-atom_loc=$(which atom) 2>&1 > /dev/null
+atom_loc=$(which atom) > /dev/null 2>&1
 if [[  $? != 0 ]]; then
   read -r -p "Please install Atom properly and press y to continue." response
 
@@ -391,7 +448,7 @@ fi;
 ok
 
 doing "checking to see if apm is installed..."
-apm_loc=$(which apm) 2>&1 > /dev/null
+apm_loc=$(which apm) > /dev/null 2>&1
 if [[ $? != 0 ]]; then
   read -r -p "Please install apm from the command pallete and press y to continue." response
 
@@ -427,4 +484,6 @@ apm install language-sql-mysql;ok
 action "apm install markdown-preview-plus..."
 apm install markdown-preview-plus;ok
 
-doing "prompting to set up appearance while we're here..."
+###
+runner "We're done! Thank you for playing."
+###
