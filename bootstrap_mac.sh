@@ -48,7 +48,7 @@ while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 ###
 runner "Configuring git."
 ###
-grep 'user = GITHUB user' ./home/.gitconfig > /dev/null 2>&1
+grep 'user = GITHUB user' ~/.bootstrap/home/.gitconfig > /dev/null 2>&1
 if [[ $? == 0 ]]; then
   read -r -p "What is your github.com username?" githubuser
 
