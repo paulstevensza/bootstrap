@@ -52,7 +52,7 @@ runner "Installing Homebrew"
 brew_loc=$(which brew) 2>&1 > /dev/null
 if [[ $? != 0 ]]; then
   doing "running homebrew installation"
-  /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)";ok
+  /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)" > /dev/null 2>&1;ok
   if [[ $? != 0 ]]; then
     error "sorry. can't install homebrew. $0 abort!"
     exit 2
@@ -76,7 +76,7 @@ runner "Installing ohmyzsh"
 ###
 if [[ ! -d "$HOME/.oh-my-zsh" ]]; then
   doing "installing ohmyzsh..."
-  sh -c "$(wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)";ok
+  sh -c "$(wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)" > /dev/null 2>&1;ok
 fi;
 
 ###
