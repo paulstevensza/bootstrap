@@ -1,5 +1,22 @@
 # Bootstrap
 
+Bootstraps a fresh macOS install to turn my laptop into something useful. To use it, I:
+
+```
+git clone https://github.com/paulstevensza/bootstrap.git ~/.bootstrap
+./bootstrap.sh
+```
+
+from Terminal.
+
+Todo:
+
+* Fix anything tagged as a BUG.
+* Create a default Python virtualenv.
+* Install common Python tools and libraries.
+* Install software from the App Store.
+* Install SteelSeriesEngine3.
+
 ## Copyright
 
 Copyright &copy; 2018 Paul Stevens
