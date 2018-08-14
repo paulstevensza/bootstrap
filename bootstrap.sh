@@ -279,9 +279,8 @@ runner "Installing additional fonts"
 ###
 
 doing "accessing and installing fonts..."
-pushd ~/.bootstrap/fonts/ > /dev/null 2>&1
-chmod +x install.sh
-./install.sh
+pushd ~/.bootstrap/fonts > /dev/null 2>&1
+./install.sh > /dev/null 2>&1
 popd > /dev/null 2>&1
 ok
 
@@ -351,30 +350,30 @@ fi;
 ok
 
 doing "apm disable language-python"
-apm disable language-python
+apm disable language-python > /dev/null 2>&1;ok
 
 doing "apm install magicpython..."
-apm install magicpython
+apm install magicpython > /dev/null 2>&1;ok
 doing "apm install atom-jinja2..."
-apm install atom-jinja2
+apm install atom-jinja2 > /dev/null 2>&1;ok
 doing "apm install autocomplete-python..."
-apm install autocomplete-python
+apm install autocomplete-python > /dev/null 2>&1;ok
 doing "apm install autocomplete-sql..."
-apm install autocomplete-sql
+apm install autocomplete-sql > /dev/null 2>&1;ok
 doing "apm install git-plus..."
-apm install git-plus
+apm install git-plus > /dev/null 2>&1;ok
 doing "apm install kite..."
-apm install kite
+apm install kite > /dev/null 2>&1;ok
 doing "apm install language-docker..."
-apm install language-docker
+apm install language-docker > /dev/null 2>&1;ok
 doing "apm install language-pgsql..."
-apm install language-pgsql
+apm install language-pgsql > /dev/null 2>&1;ok
 doing "apm install language-protobuf..."
-apm install language-protobuf
+apm install language-protobuf > /dev/null 2>&1;ok
 doing "apm install language-sql-mysql..."
-apm install language-sql-mysql
+apm install language-sql-mysql > /dev/null 2>&1;ok
 doing "apm install markdown-preview-plus..."
-apm install markdown-preview-plus
+apm install markdown-preview-plus > /dev/null 2>&1;ok
 
 ###
 runner "We're done! Thank you for playing."
