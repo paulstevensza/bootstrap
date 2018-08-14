@@ -3,8 +3,9 @@
 Bootstraps a fresh macOS install to turn my laptop into something useful. To use it, I:
 
 ```
-git clone https://github.com/paulstevensza/bootstrap.git ~/.bootstrap
-./bootstrap.sh
+$ git clone https://github.com/paulstevensza/bootstrap.git ~/.bootstrap
+$ cd $_
+$ ./bootstrap.sh
 ```
 
 from Terminal.
