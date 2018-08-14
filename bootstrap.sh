@@ -102,19 +102,19 @@ if [[ $? == 0 ]]; then
 
   # test if gnu-sed or MacOS sed
 
-  sed -i "s/GITHUBFULLNAME/$firstname $lastname/" ./homedir/.gitconfig > /dev/null 2>&1 | true
+  sed -i "s/GITHUBFULLNAME/$firstname $lastname/" ./home/.gitconfig > /dev/null 2>&1 | true
   if [[ ${PIPESTATUS[0]} != 0 ]]; then
     echo
     running "looks like you are using MacOS sed rather than gnu-sed, accommodating"
-    sed -i '' "s/GITHUBFULLNAME/$firstname $lastname/" ./homedir/.gitconfig;
-    sed -i '' 's/GITHUBEMAIL/'$email'/' ./homedir/.gitconfig;
-    sed -i '' 's/GITHUBUSER/'$githubuser'/' ./homedir/.gitconfig;
+    sed -i '' "s/GITHUBFULLNAME/$firstname $lastname/" ./home/.gitconfig;
+    sed -i '' 's/GITHUBEMAIL/'$email'/' ./home/.gitconfig;
+    sed -i '' 's/GITHUBUSER/'$githubuser'/' ./home/.gitconfig;
     ok
   else
     echo
     bot "looks like you are already using gnu-sed. woot!"
-    sed -i 's/GITHUBEMAIL/'$email'/' ./homedir/.gitconfig;
-    sed -i 's/GITHUBUSER/'$githubuser'/' ./homedir/.gitconfig;
+    sed -i 's/GITHUBEMAIL/'$email'/' ./home/.gitconfig;
+    sed -i 's/GITHUBUSER/'$githubuser'/' ./home/.gitconfig;
   fi
 fi
 
