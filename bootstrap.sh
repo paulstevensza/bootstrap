@@ -59,7 +59,7 @@ if [[ $? != 0 ]]; then
   fi
 fi;
 
-doing "Updating brew and installing software"
+doing "Updating brew and installing software..."
 brew bundle > /dev/null 2>&1;ok
 
 ###
@@ -67,7 +67,7 @@ runner "Setting shell to brew variant of ZSH"
 ###
 CURRSHELL=$(dscl . -read /Users/$USER UserShell | awk '{print $2}')
 if [[ "$CURRSHELL" != "/usr/local/bin/zsh" ]]; then
-  doing "setting your shell to the zsh from brew..."
+  doing "setting your shell to zsh installed from brew..."
   sudo dscl . -change /Users/$USER UserShell $SHELL /usr/local/bin/zsh > /dev/null 2>&1;ok
 fi
 
@@ -82,25 +82,21 @@ fi;
 ###
 runner "Pushing dotfiles"
 ###
-doing "pushing dotfiles to $HOME"
+doing "pushing dotfiles to $HOME";ok
 pushd home > /dev/null 2>&1
 for file in .*; do
   if [[ $file == "." || $file == ".." ]]; then
     continue
   fi
   doing "~/$file"
-  if [[ -e ~/$file ]]; then
-    mkdir -p ~/.dotfiles/backup
-    mv ~/$file ~/.dotfiles/backup/$file
-    echo "backed up $file to ~/.dotfiles/backup/$file"
-  fi
-  cp ~/.bootstrap/home/$file ~/$file
+  cp ~/.bootstrap/home/$file ~/$file;ok
 done;
 popd > /dev/null 2>&1
 
 ###
 runner "Force quitting System Preferences panes (if any are open)"
 ###
+doing "shutting any open System Preferences panes..."
 osascript -e 'tell application "System Preferences" to quit';ok
 
 ###
@@ -118,96 +114,95 @@ sudo defaults write /Library/Preferences/com.apple.alf loggingenabled -int 1
 # Prevent signed software from automatically receiving incoming connections
 sudo defaults write /Library/Preferences/com.apple.alf allowsignedenabled -bool false
 # Enable firewall logging
-sudo defaults write /Library/Preferences/com.apple.alf loggingenabled -int 1
+sudo defaults write /Library/Preferences/com.apple.alf loggingenabled -int 1;ok
 
 doing "changing log handling..."
 # Rotate logs after 30 days
 sudo perl -p -i -e 's/rotate=seq compress file_max=5M all_max=50M/rotate=utc compress file_max=5M ttl=30/g' "/etc/asl.conf"
-sudo perl -p -i -e 's/appfirewall.log file_max=5M all_max=50M/appfirewall.log rotate=utc compress file_max=5M ttl=30/g' "/etc/asl.conf"
+sudo perl -p -i -e 's/appfirewall.log file_max=5M all_max=50M/appfirewall.log rotate=utc compress file_max=5M ttl=30/g' "/etc/asl.conf";ok
 
-doing "restarting firewall..."
-# Reload the firewall
-launchctl unload /System/Library/LaunchAgents/com.apple.alf.useragent.plist
-sudo launchctl unload /System/Library/LaunchDaemons/com.apple.alf.agent.plist
-sudo launchctl load /System/Library/LaunchDaemons/com.apple.alf.agent.plist
-launchctl load /System/Library/LaunchAgents/com.apple.alf.useragent.plist
+# BUG: SIP again.
+# doing "restarting firewall..."
+# # Reload the firewall
+# launchctl unload /System/Library/LaunchAgents/com.apple.alf.useragent.plist
+# sudo launchctl unload /System/Library/LaunchDaemons/com.apple.alf.agent.plist
+# sudo launchctl load /System/Library/LaunchDaemons/com.apple.alf.agent.plist
+# launchctl load /System/Library/LaunchAgents/com.apple.alf.useragent.plist;ok
 
-doing "disabling IR and BlueTooth features..."
-# Disable IR features
-sudo defaults write /Library/Preferences/com.apple.driver.AppleIRController DeviceEnabled -bool false
-# Disable Bluetooth
-sudo defaults write /Library/Preferences/com.apple.Bluetooth ControllerPowerState -int 0
-sudo launchctl unload /System/Library/LaunchDaemons/com.apple.blued.plist
-sudo launchctl load /System/Library/LaunchDaemons/com.apple.blued.plist
+# BUG: Incorrect paths to bluetooth plist
+# doing "disabling IR and BlueTooth features..."
+# # Disable IR features
+# sudo defaults write /Library/Preferences/com.apple.driver.AppleIRController DeviceEnabled -bool false
+# # Disable Bluetooth
+# sudo defaults write /Library/Preferences/com.apple.Bluetooth ControllerPowerState -int 0
+# sudo launchctl unload /System/Library/LaunchDaemons/com.apple.blued.plist
+# sudo launchctl load /System/Library/LaunchDaemons/com.apple.blued.plist
 
 doing "disabling Captive Network Assistant..."
-# Disable CNA
-sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.captive.control Active -bool false
+sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.captive.control Active -bool false;ok
 
-doing "disabling remote access and remote features..."
-# Disable remote Apple events
-sudo systemsetup -setremoteappleevents off
-# Disable remote login
-sudo systemsetup -setremotelogin off
+# BUG: requires additional input
+# doing "disabling remote access and remote features..."
+# # Disable remote Apple events
+# sudo systemsetup -setremoteappleevents off
+# # Disable remote login
+# sudo systemsetup -setremotelogin off
+
+# BUG: wakeonmodem not supported
 # Disable wake-on modem and wake-on LAN
-sudo systemsetup -setwakeonmodem off
-sudo systemsetup -setwakeonnetworkaccess off
+#sudo systemsetup -setwakeonmodem off
+doing "disabling wake on lan..."
+sudo systemsetup -setwakeonnetworkaccess off > /dev/null 2>&1;ok
 
 doing "disabling file sharing..."
 # Disable file-sharing via SMB and AFP
 sudo launchctl unload -w /System/Library/LaunchDaemons/com.apple.smbd.plist
-sudo launchctl unload -w /System/Library/LaunchDaemons/com.apple.AppleFileServer.plist
+sudo launchctl unload -w /System/Library/LaunchDaemons/com.apple.AppleFileServer.plist;ok
 
 doing "disabling password hints..."
 # No passwords hint
-sudo defaults write /Library/Preferences/com.apple.loginwindow RetriesUntilHint -int 0
+sudo defaults write /Library/Preferences/com.apple.loginwindow RetriesUntilHint -int 0;ok
 
 doing "disabling guest account..."
 # Disable that damn guest account
-sudo defaults write /Library/Preferences/com.apple.loginwindow GuestEnabled -bool false
+sudo defaults write /Library/Preferences/com.apple.loginwindow GuestEnabled -bool false;ok
 
 doing "changing keychain lock timeouts and FileVault keystore timeouts..."
 # Lock the keychain after there's been no activity for 3 hours
 security set-keychain-settings -t 10800 -l ~/Library/Keychains/login.keychain
 # Destroy FileVault key when going into standby mode
-sudo pmset destroyfvkeyonstandby 1
+sudo pmset destroyfvkeyonstandby 1;ok
 
 doing "disabling Bonjour broadcast events..."
-# Disable Bonjour multicast advertising
-sudo defaults write /Library/Preferences/com.apple.mDNSResponder.plist NoMulticastAdvertisements -bool true
+sudo defaults write /Library/Preferences/com.apple.mDNSResponder.plist NoMulticastAdvertisements -bool true;ok
 
-doing "disabling crash reporter and diagnostic reports..."
-# Disable crash reporter
-defaults write com.apple.CrashReporter DialogType -string "none"
-# Disable diagnostic reports
-sudo launchctl unload -w /System/Library/LaunchDaemons/com.apple.SubmitDiagInfo.plist
+# BUG: fails while SIP is enabled
+# doing "disabling crash reporter and diagnostic reports..."
+# # Disable crash reporter
+# defaults write com.apple.CrashReporter DialogType -string "none"
+# # Disable diagnostic reports
+# sudo launchctl unload -w /System/Library/LaunchDaemons/com.apple.SubmitDiagInfo.plist
 
-doing "changing log rotation features..."
+doing "log all auth attempts for 30 days..."
 # Log all auth attempts for 30 days
-sudo perl -p -i -e 's/rotate=seq file_max=5M all_max=20M/rotate=utc file_max=5M ttl=30/g' "/etc/asl/com.apple.authd"
-# Log installation events for a full year
-sudo perl -p -i -e 's/format=bsd/format=bsd mode=0640 rotate=utc compress file_max=5M ttl=365/g' "/etc/asl/com.apple.install"
-# Log kernel events for 30 days
+sudo perl -p -i -e 's/rotate=seq file_max=5M all_max=20M/rotate=utc file_max=5M ttl=30/g' "/etc/asl/com.apple.authd";ok
+doing "log installation events for a full year"
+sudo perl -p -i -e 's/format=bsd/format=bsd mode=0640 rotate=utc compress file_max=5M ttl=365/g' "/etc/asl/com.apple.install";ok
+doing "log kernel events for 30 days"
 sudo perl -p -i -e 's|flags:lo,aa|flags:lo,aa,ad,fd,fm,-all,^-fa,^-fc,^-cl|g' /private/etc/security/audit_control
 sudo perl -p -i -e 's|filesz:2M|filesz:10M|g' /private/etc/security/audit_control
-sudo perl -p -i -e 's|expire-after:10M|expire-after: 30d |g' /private/etc/security/audit_control
+sudo perl -p -i -e 's|expire-after:10M|expire-after: 30d |g' /private/etc/security/audit_control;ok
 
 doing "disabling confirm open application dialogue..."
-# Disable the confirm open application dialogue
-defaults write com.apple.LaunchServices LSQuarantine -bool false
-
-ok "finished securing this system."
+defaults write com.apple.LaunchServices LSQuarantine -bool false;ok
 
 ###
 runner "Tweaking SSD settings"
 ###
 
-doing "tweaking SSD settings to improve performance"
-sudo tmutil disablelocal;ok
+doing "disable hibernation..."
 sudo pmset -a hibernatemode 0;ok
-sudo rm -rf /Private/var/vm/sleepimage;ok
-sudo touch /Private/var/vm/sleepimage;ok
-sudo chflags uchg /Private/var/vm/sleepimage;ok
+doing "disable sudden motion sensor..."
 sudo pmset -a sms 0;ok
 
 ###
@@ -240,9 +235,6 @@ runner "Time Machine configuration"
 doing "don't use new drives as backup volumes..."
 defaults write com.apple.TimeMachine DoNotOfferNewDisksForBackup -bool true;ok
 
-doing "disable local Time Machine backups..."
-hash tmutil &> /dev/null && sudo tmutil disablelocal;ok
-
 ###
 runner "Tweaking Activity Monitor settings"
 ###
@@ -267,7 +259,6 @@ runner "Managing SSH configs, keys and permissions"
 doing "importing ssh stuff..."
 pushd ~/Documents/Backups/SSH > /dev/null 2>&1
 for file in *; do
-  doing "$file"
   cp $file ~/.ssh/$file
 done;
 popd > /dev/null 2>&1
@@ -277,9 +268,10 @@ doing "fixing ssh permissions..."
 chmod 0700 ~/.ssh
 pushd ~/.ssh > /dev/null 2>&1
 for file in *; do
-  chmod 0600 $file; ok
+  chmod 0600 $file
 done;
 popd > /dev/null 2>&1
+ok
 
 ###
 runner "Installing additional fonts"
@@ -320,19 +312,16 @@ defaults write com.googlecode.iterm2 "Non Ascii Font" -string "RobotoMonoForPowe
 ok
 
 doing "reading iterm2 settings..."
-defaults read -app iTerm > /dev/null 2>&1;
+defaults read -app iTerm > /dev/null 2>&1;ok
 
 ###
 runner "Updating hosts to unfuck the Internet a bit..."
 ###
 
-doing "backing up exiting hosts file and implementing a new one..."
-action "cp /etc/hosts /etc/hosts.bak"
-sudo cp /etc/hosts /etc/hosts.bak
-ok
-action "wget https://someonewhocares.org/hosts/hosts -O /etc/hosts"
-sudo wget https://someonewhocares.org/hosts/hosts -O /etc/hosts
-ok
+doing "backing up exiting hosts file..."
+sudo cp /etc/hosts /etc/hosts.bak;ok
+doing "implementing a new hosts file"
+sudo wget https://someonewhocares.org/hosts/hosts -O /etc/hosts > /dev/null 2>&1;ok
 
 ###
 runner "Configuring Atom"
@@ -358,31 +347,32 @@ if [[ $? != 0 ]]; then
     continue
   fi
 fi;
+ok
 
-action "apm disable language-python"
+doing "apm disable language-python"
 apm disable language-python;ok
 
-action "apm install magicpython..."
+doing "apm install magicpython..."
 apm install magicpython;ok
-action "apm install atom-jinja2..."
+doing "apm install atom-jinja2..."
 apm install atom-jinja2;ok
-action "apm install autocomplete-python..."
+doing "apm install autocomplete-python..."
 apm install autocomplete-python;ok
-action "apm install autocomplete-sql..."
+doing "apm install autocomplete-sql..."
 apm install autocomplete-sql;ok
-action "apm install git-plus..."
+doing "apm install git-plus..."
 apm install git-plus;ok
-action "apm install kite..."
+doing "apm install kite..."
 apm install kite;ok
-action "apm install language-docker..."
+doing "apm install language-docker..."
 apm install language-docker;ok
-action "apm install language-pgsql..."
+doing "apm install language-pgsql..."
 apm install language-pgsql;ok
-action "apm install language-protobuf..."
+doing "apm install language-protobuf..."
 apm install language-protobuf;ok
-action "apm install language-sql-mysql..."
+doing "apm install language-sql-mysql..."
 apm install language-sql-mysql;ok
-action "apm install markdown-preview-plus..."
+doing "apm install markdown-preview-plus..."
 apm install markdown-preview-plus;ok
 
 ###
