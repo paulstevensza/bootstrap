@@ -23,15 +23,18 @@ brew "rbenv-gem-rehash"
 brew "wget"
 brew "zsh"
 
-# Taps
-tap 'phinze/homebrew-cask'
-tap 'chef/chef/chefdk'
-
 # Casks
 cask 'atom'
+cask 'chefdk'
+cask 'diffmerge'
+cask 'dropbox'
 cask 'firefox'
 cask 'github-desktop'
 cask 'google-chrome'
+cask 'gpgtools'
 cask 'iterm2'
 cask 'spotify'
-cash 'slack'
+cask 'slack'
+cask 'torbrowser'
+cask 'vagrant'
+cask 'virtualbox'
