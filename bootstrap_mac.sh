@@ -361,10 +361,9 @@ doing "fixing ssh permissions..."
 chmod 0700 ~/.ssh
 pushd ~/.ssh > /dev/null 2>&1
 for file in *; do
-  chmod 0600 $file
+  chmod 0600 $file; ok
 done;
 popd > /dev/null 2>&1
-ok
 
 ###
 runner "Installing additional fonts"
@@ -443,7 +442,6 @@ if [[ $? != 0 ]]; then
     continue
   fi
 fi;
-ok
 
 action "apm disable language-python"
 apm disable language-python;ok
