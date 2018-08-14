@@ -323,6 +323,17 @@ popd > /dev/null 2>&1
 ok
 
 ###
+runner "Installing additional fonts"
+###
+
+doing "accessing and installing fonts..."
+pushd ./fonts/ > /dev/null 2>&1
+chmod +x install.sh
+./install.sh
+popd > /dev/null 2>&1
+ok
+
+###
 runner "Configuring iTerm2"
 ###
 
