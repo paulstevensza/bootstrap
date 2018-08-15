@@ -387,5 +387,14 @@ doing "installing requirements..."
 ~/.pyenv/shims/pip install --upgrade -r requirements.txt > /dev/null 2>&1;ok
 
 ###
+runner "Downloading software to ~/Downloads"
+###
+
+doing "downloading SteelSeriesEngine..."
+wget https://steelseries.com/engine/latest/darwin -O ~/Downloads/SteelSeriesEngine.pkg > /dev/null 2>&1;ok
+doing "downloading Skype..."
+wget https://go.skype.com/mac.download -O ~/Downloads/Skype.dmg > /dev/null 2>&1;ok
+
+###
 runner "We're done! Thank you for playing."
 ###
