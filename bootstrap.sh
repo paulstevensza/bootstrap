@@ -376,5 +376,16 @@ doing "apm install markdown-preview-plus..."
 apm install markdown-preview-plus > /dev/null 2>&1;ok
 
 ###
+runner "Creating a generic Python virtualenv"
+###
+
+doing "creating virtualenv..."
+pyenv virtualenv 3.6.6 ~/.virtualenv/py36 > /dev/null 2>&1;ok
+doing "upgrading installers..."
+~/.pyenv/shims/pip install --upgrade -r pip-upgrades.txt > /dev/null 2>&1;ok
+doing "installing requirements..."
+~/.pyenv/shims/pip install --upgrade -r requirements.txt > /dev/null 2>&1;ok
+
+###
 runner "We're done! Thank you for playing."
 ###

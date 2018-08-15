@@ -1,0 +1,13 @@
+ansible
+coverage
+falcon
+grpcio
+grpcio-tools
+gunicorn
+httpie
+protobuf
+pytest
+PyYAML
+requests
+rethinkdb
+tox

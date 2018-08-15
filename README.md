@@ -13,10 +13,11 @@ from Terminal.
 ## Todo
 
 * Fix anything tagged as a BUG.
-* Create a default Python virtualenv.
-* Install common Python tools and libraries.
+* ~Create a default Python virtualenv.~
+* ~Install common Python tools and libraries.~
 * Install software from the App Store.
 * Install SteelSeriesEngine3.
+* Configurations to support Golang
 
 ## Copyright
 
