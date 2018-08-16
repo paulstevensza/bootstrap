@@ -359,7 +359,7 @@ mkdir -p ~/Code/golang;ok
 runner "Setting up Ruby"
 ###
 doing "installing ruby 2.5.1..."
-rbenv install 2.5.1 > /dev/null 2>&1;ok
+rbenv install -f 2.5.1 > /dev/null 2>&1;ok
 doing "setting new ruby version to global..."
 rbenv global 2.5.1 > /dev/null 2>&1;ok
 
