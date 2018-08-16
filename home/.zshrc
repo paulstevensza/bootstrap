@@ -4,15 +4,6 @@
 # Path to your oh-my-zsh installation.
 export ZSH=/Users/paulst/.oh-my-zsh
 
-# Goroot
-export PATH=$PATH:/usr/local/opt/go/libexec/bin
-
-# Go Home
-export GOPATH=/Users/paulst/Code/golang
-
-# Add Go bin dirs
-export PATH=$PATH:/Users/paulst/Code/golang/bin
-
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
@@ -101,7 +92,6 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 alias zshconfig="atom ~/.zshrc"
 alias ohmyzsh="atom ~/.oh-my-zsh"
-alias isvpn="sudo openconnect --juniper ssl.is.co.za"
 
 # Hide user@host from prompt
 prompt_context() {}

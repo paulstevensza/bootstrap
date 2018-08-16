@@ -17,7 +17,8 @@ from Terminal.
 * ~Install common Python tools and libraries.~
 * Install software from the App Store.
 * ~Download additional software.~
-* Configurations to support Golang
+* ~Configurations to support Golang.~
+* ~Create a default Ruby rbenv.~
 
 ## Copyright
 

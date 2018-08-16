@@ -96,3 +96,5 @@ alias vtop="vtop --theme wizard"
 alias jsonfix="pbpaste | jq . | pbcopy"
 
 alias lookbusy="cat /dev/urandom | hexdump -C | grep \"34 32\""
+
+alias isvpn="sudo openconnect --juniper ssl.is.co.za"

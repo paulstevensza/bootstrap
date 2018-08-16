@@ -1,10 +1,12 @@
 #My Scripts
 export PATH=$PATH:.
-#export PATH=$PATH:~/.dotfiles/scripts
+export PATH=$PATH:~/.bootstrap/scripts
 
 #Brew
 export PATH=/usr/local/sbin:$PATH
 export PATH=/usr/local/bin:$PATH
 
 # GO
-#export PATH=$PATH:/usr/local/opt/go/libexec/bin
+export PATH=$PATH:/usr/local/opt/go/libexec/bin
+export GOPATH=$HOME/Code/golang
+export PATH=$PATH:/Users/paulst/Code/golang/bin

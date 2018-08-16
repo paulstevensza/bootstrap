@@ -348,6 +348,22 @@ doing "installing requirements..."
 ~/.pyenv/shims/pip install --upgrade -r requirements.txt > /dev/null 2>&1;ok
 
 ###
+runner "Setting up Go workspace stuff"
+###
+
+doing "creating a go root..."
+# See https://golang.org/doc/code.html#GOPATH
+mkdir -p ~/Code/golang;ok
+
+###
+runner "Setting up Ruby"
+###
+doing "installing ruby 2.5.1..."
+rbenv install 2.5.1 > /dev/null 2>&1;ok
+doing "setting new ruby version to global..."
+rbenv global 2.5.1 > /dev/null 2>&1;ok
+
+###
 runner "Downloading software to ~/Downloads"
 ###
 
