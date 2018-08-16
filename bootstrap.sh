@@ -364,6 +364,18 @@ doing "setting new ruby version to global..."
 rbenv global 2.5.1 > /dev/null 2>&1;ok
 
 ###
+runner "Installing App Store applications"
+###
+doing "Installing 1Password..."
+sudo mas install --force 1333542190 > /dev/null 2>&1;ok
+doing "Installing NordVPN IKE..."
+sudo mas install --force 1116599239 > /dev/null 2>&1;ok
+doing "Installing Microsoft Remote Desktop..."
+sudo mas install --force 1295203466 > /dev/null 2>&1;ok
+doing "Installing Core Tunnel - SSH Tunnel 2..."
+sudo mas install --force 1354318707 > /dev/null 2>&1;ok
+
+###
 runner "Downloading software to ~/Downloads"
 ###
 

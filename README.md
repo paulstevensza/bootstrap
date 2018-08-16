@@ -15,7 +15,7 @@ from Terminal.
 * ~Fix anything tagged as a BUG.~
 * ~Create a default Python virtualenv.~
 * ~Install common Python tools and libraries.~
-* Install software from the App Store.
+* ~Install software from the App Store.~
 * ~Download additional software.~
 * ~Configurations to support Golang.~
 * ~Create a default Ruby rbenv.~

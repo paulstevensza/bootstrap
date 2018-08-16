@@ -13,6 +13,7 @@ cask_args appdir: '/Applications'
 brew "git"
 brew "go"
 brew "hub"
+brew "mas"
 brew "nmap"
 brew "node"
 brew "openconnect"
