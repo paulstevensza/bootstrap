@@ -107,13 +107,9 @@ runner "Securing macOS"
 # https://benchmarks.cisecurity.org/tools2/osx/CIS_Apple_OSX_10.12_Benchmark_v1.0.0.pdf
 
 doing "implementing firewall changes..."
-# Enable firewall
 sudo defaults write /Library/Preferences/com.apple.alf globalstate -int 2
-# Enable filewall stealth mode
 sudo defaults write /Library/Preferences/com.apple.alf loggingenabled -int 1
-# Prevent signed software from automatically receiving incoming connections
 sudo defaults write /Library/Preferences/com.apple.alf allowsignedenabled -bool false
-# Enable firewall logging
 sudo defaults write /Library/Preferences/com.apple.alf loggingenabled -int 1;ok
 
 doing "changing log handling..."
@@ -121,57 +117,20 @@ doing "changing log handling..."
 sudo perl -p -i -e 's/rotate=seq compress file_max=5M all_max=50M/rotate=utc compress file_max=5M ttl=30/g' "/etc/asl.conf"
 sudo perl -p -i -e 's/appfirewall.log file_max=5M all_max=50M/appfirewall.log rotate=utc compress file_max=5M ttl=30/g' "/etc/asl.conf";ok
 
-# BUG: SIP again.
-# doing "restarting firewall..."
-# # Reload the firewall
-# launchctl unload /System/Library/LaunchAgents/com.apple.alf.useragent.plist
-# sudo launchctl unload /System/Library/LaunchDaemons/com.apple.alf.agent.plist
-# sudo launchctl load /System/Library/LaunchDaemons/com.apple.alf.agent.plist
-# launchctl load /System/Library/LaunchAgents/com.apple.alf.useragent.plist;ok
-
-# BUG: Incorrect paths to bluetooth plist
-# doing "disabling IR and BlueTooth features..."
-# # Disable IR features
-# sudo defaults write /Library/Preferences/com.apple.driver.AppleIRController DeviceEnabled -bool false
-# # Disable Bluetooth
-# sudo defaults write /Library/Preferences/com.apple.Bluetooth ControllerPowerState -int 0
-# sudo launchctl unload /System/Library/LaunchDaemons/com.apple.blued.plist
-# sudo launchctl load /System/Library/LaunchDaemons/com.apple.blued.plist
-
 doing "disabling Captive Network Assistant..."
 sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.captive.control Active -bool false;ok
 
-# BUG: requires additional input
-# doing "disabling remote access and remote features..."
-# # Disable remote Apple events
-# sudo systemsetup -setremoteappleevents off
-# # Disable remote login
-# sudo systemsetup -setremotelogin off
-
-# BUG: wakeonmodem not supported
-# Disable wake-on modem and wake-on LAN
-#sudo systemsetup -setwakeonmodem off
 doing "disabling wake on lan..."
 sudo systemsetup -setwakeonnetworkaccess off > /dev/null 2>&1;ok
 
-# BUG: Services not found
-# doing "disabling file sharing..."
-# # Disable file-sharing via SMB and AFP
-# sudo launchctl unload -w /System/Library/LaunchDaemons/com.apple.smbd.plist
-# sudo launchctl unload -w /System/Library/LaunchDaemons/com.apple.AppleFileServer.plist;ok
-
 doing "disabling password hints..."
-# No passwords hint
 sudo defaults write /Library/Preferences/com.apple.loginwindow RetriesUntilHint -int 0;ok
 
 doing "disabling guest account..."
-# Disable that damn guest account
 sudo defaults write /Library/Preferences/com.apple.loginwindow GuestEnabled -bool false;ok
 
 doing "changing keychain lock timeouts and FileVault keystore timeouts..."
-# Lock the keychain after there's been no activity for 3 hours
 security set-keychain-settings -t 10800 -l ~/Library/Keychains/login.keychain
-# Destroy FileVault key when going into standby mode
 sudo pmset destroyfvkeyonstandby 1;ok
 
 doing "disabling Bonjour broadcast events..."
@@ -185,7 +144,6 @@ sudo defaults write /Library/Preferences/com.apple.mDNSResponder.plist NoMultica
 # sudo launchctl unload -w /System/Library/LaunchDaemons/com.apple.SubmitDiagInfo.plist
 
 doing "log all auth attempts for 30 days..."
-# Log all auth attempts for 30 days
 sudo perl -p -i -e 's/rotate=seq file_max=5M all_max=20M/rotate=utc file_max=5M ttl=30/g' "/etc/asl/com.apple.authd";ok
 doing "log installation events for a full year"
 sudo perl -p -i -e 's/format=bsd/format=bsd mode=0640 rotate=utc compress file_max=5M ttl=365/g' "/etc/asl/com.apple.install";ok
@@ -304,7 +262,10 @@ doing "hide tab title bars..."
 defaults write com.googlecode.iterm2 HideTab -bool true;ok
 
 doing "set system wide hotkey to show/hide iterm with ^\`"
-defaults write com.googlecode.iterm2 Hotkey -bool true;ok
+defaults write com.googlecode.iterm2 Hotkey -bool true
+defaults write com.googlecode.iterm2 HotkeyChar -int 96
+defaults write com.googlecode.iterm2 HotkeyCode -int 50
+defaults write com.googlecode.iterm2 HotkeyModifiers -int 262401;ok
 
 doing "setting up fonts..."
 defaults write com.googlecode.iterm2 "Normal Font" -string "Hack-Regular 12";
