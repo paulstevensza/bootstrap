@@ -30,6 +30,12 @@ sudo -v
 while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 
 ###
+runner "Installing XCode Command Line Tools."
+###
+doing "installing command line tools..."
+xcode-select --install > /dev/null 2>&1;ok
+
+###
 runner "Installing Homebrew"
 ###
 
@@ -152,24 +158,106 @@ sudo pmset -a sms 0;ok
 runner "Changing misc settings"
 ###
 
-doing "changing hostname"
+doing "changing hostname..."
 sudo scutil --set ComputerName "arktos"
 sudo scutil --set HostName "arktos"
 sudo scutil --set LocalHostName "arktos"
 sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string "arktos";ok
 
-doing "enable the 'locate' command"
+doing "enable the 'locate' command..."
 sudo launchctl load -w /System/Library/LaunchDaemons/com.apple.locate.plist > /dev/null 2>&1;ok
 
-doing "delay standby timer for 24 hours"
+doing "delay standby timer for 24 hours..."
 sudo pmset -a standbydelay 86400;ok
 
-doing "Expand save panel by default"
+doing "expand save panel by default..."
 defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode -bool true
 defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode2 -bool true;ok
 
-doing "Check for software updates daily, not just once a week"
+doing "check for software updates daily, not just once a week..."
 defaults write com.apple.SoftwareUpdate ScheduleFrequency -int 1;ok
+
+doing "save to disk by default..."
+defaults write NSGlobalDomain NSDocumentSaveNewDocumentsToCloud -bool false;ok
+
+doing "disable the automatic termination of inactive apps..."
+defaults write NSGlobalDomain NSDisableAutomaticTermination -bool true;ok
+
+doing "never go into sleep mode..."
+sudo systemsetup -setcomputersleep Off > /dev/null;ok
+
+doing "disabling press and hold for keys..."
+defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool false;ok
+
+doing "set fast key repeat speed..."
+defaults write NSGlobalDomain KeyRepeat -int 2
+defaults write NSGlobalDomain InitialKeyRepeat -int 10;ok
+
+doing "requiring password immediately after screensaver or sleep..."
+defaults write com.apple.screensaver askForPassword -int 1
+defaults write com.apple.screensaver askForPasswordDelay -int 0;ok
+
+doing "defaulting to show finder status bar..."
+defaults write com.apple.finder ShowStatusBar -bool true;ok
+
+doing "defaulting to show finder path bar..."
+defaults write com.apple.finder ShowPathbar -bool true;ok
+
+doing "display full POSIX path in finder window title..."
+defaults write com.apple.finder _FXShowPosixPathInTitle -bool true;ok
+
+doing "disable warnings when changing file extensions..."
+defaults write com.apple.finder FXEnableExtensionChangeWarning -bool false;ok
+
+doing "avoid creating .DS_Store files on network volumes..."
+defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true;ok
+
+doing "default to list view in finder..."
+defaults write com.apple.finder FXPreferredViewStyle -string "Nlsv";ok
+
+doing "disable warnings before emptying trash..."
+defaults write com.apple.finder WarnOnEmptyTrash -bool false;ok
+
+doing "empty trash securely..."
+defaults write com.apple.finder EmptyTrashSecurely -bool true;ok
+
+doing "set dock icons to 36 pixels..."
+defaults write com.apple.dock tilesize -int 36;ok
+
+doing "minimize windows to their dock icon..."
+defaults write com.apple.dock minimize-to-application -bool true;ok
+
+doing "show indicator lights for any open apps in the dock..."
+defaults write com.apple.dock show-process-indicators -bool true;ok
+
+doing "don't group windows by application in Mission Control..."
+defaults write com.apple.dock expose-group-by-app -bool false;ok
+
+doing "don't automatically rearrange Spaces by most recently used..."
+defaults write com.apple.dock mru-spaces -bool false;ok
+
+doing "set Safari home page to about:blank..."
+defaults write com.apple.Safari HomePage -string "about:blank";ok
+
+doing "stop Safari from opening safe files by default after downloading them..."
+defaults write com.apple.Safari AutoOpenSafeDownloads -bool false;ok
+
+doing "allow backspace key to act as a back button..."
+defaults write com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebKit2BackspaceKeyNavigationEnabled -bool true;ok
+
+doing "hide bookmark bar by default..."
+defaults write com.apple.Safari ShowFavoritesBar -bool false;ok
+
+doing "disable thumbnail cache for History and Top Sites..."
+defaults write com.apple.Safari DebugSnapshotsUpdatePolicy -int 2;ok
+
+doing "enable Safari debug menu..."
+defaults write com.apple.Safari IncludeInternalDebugMenu -bool true;ok
+
+doing "enable developer menu and web inspector..."
+defaults write com.apple.Safari IncludeDevelopMenu -bool true
+defaults write com.apple.Safari WebKitDeveloperExtrasEnabledPreferenceKey -bool true
+defaults write com.apple.Safari com.apple.Safari.ContentPageGroupIdentifier.WebKit2DeveloperExtrasEnabled -bool true;ok
 
 ###
 runner "Time Machine configuration"
