@@ -438,14 +438,18 @@ rbenv global 2.5.1 > /dev/null 2>&1;ok
 ###
 runner "Installing App Store applications"
 ###
-doing "Installing 1Password..."
+doing "installing 1Password..."
 sudo mas install --force 1333542190 > /dev/null 2>&1;ok
-doing "Installing NordVPN IKE..."
+doing "installing NordVPN IKE..."
 sudo mas install --force 1116599239 > /dev/null 2>&1;ok
-doing "Installing Microsoft Remote Desktop..."
+doing "installing Microsoft Remote Desktop..."
 sudo mas install --force 1295203466 > /dev/null 2>&1;ok
-doing "Installing Core Tunnel - SSH Tunnel 2..."
+doing "installing Core Tunnel - SSH Tunnel 2..."
 sudo mas install --force 1354318707 > /dev/null 2>&1;ok
+doing "installing WhatsApp Desktop..."
+sudo mas install --force 1147396723 > /dev/null 2>&1;ok
+doing "installing WriteRoom..."
+sudo mas install --force 417967324 > /dev/null 2>&1;ok
 
 ###
 runner "Downloading software to ~/Downloads"
