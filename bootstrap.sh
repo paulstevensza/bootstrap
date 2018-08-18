@@ -288,6 +288,7 @@ runner "Managing SSH configs, keys and permissions"
 ###
 
 doing "importing ssh stuff..."
+mkdir ~/.ssh > /dev/null 2>&1
 pushd ~/Documents/Backups/SSH > /dev/null 2>&1
 for file in *; do
   cp $file ~/.ssh/$file
