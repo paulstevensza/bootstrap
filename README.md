@@ -14,7 +14,7 @@ repo.
 Open `Terminal`, and type the following:
 
 ```
-$ git clone --recurese-submodules https://github.com/paulstevensza/bootstrap.git ~/.bootstrap
+$ git clone --recurse-submodules https://github.com/paulstevensza/bootstrap.git ~/.bootstrap
 $ cd $_
 $ ./bootstrap.sh
 ```
