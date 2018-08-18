@@ -4,9 +4,6 @@ Bootstraps a fresh macOS install to turn my laptop into something useful. I like
 and get tired of repeating the process of installing it and then adding in the applications that I find most useful.
 It's also a nice staging point for a new Mac.
 
-I think I'll likely be shifting to harder hitting hardware than Apple offer, so a `bootstrap-linux` will soon be in the
-works.
-
 ### Attribution
 
 Heavily inspired by the awesome work done by [Automantic](https://github.com/atomantic/dotfiles/) on his own dotfiles
