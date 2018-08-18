@@ -2,8 +2,10 @@
 
 Bootstraps a fresh macOS install to turn my laptop into something useful. I like to refresh my macOS install frequently,
 and get tired of repeating the process of installing it and then adding in the applications that I find most useful.
-It's also a nice staging point for a new Mac, although the one I have will likely be my last as I look to move my
-workflow to a Dell XPS13 with Ubuntu on it. There will likely be a `bootstrap-linux` sometime soon.
+It's also a nice staging point for a new Mac.
+
+I think I'll likely be shifting to harder hitting hardware than Apple offer, so a `bootstrap-linux` will soon be in the
+works.
 
 ### Attribution
 
