@@ -73,7 +73,7 @@ fi;
 runner "Pushing dotfiles"
 ###
 doing "pushing dotfiles to $HOME";ok
-pushd home > /dev/null 2>&1
+pushd ~/.bootstrap/home > /dev/null 2>&1
 for file in .*; do
   if [[ $file == "." || $file == ".." ]]; then
     continue
