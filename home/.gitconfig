@@ -162,7 +162,7 @@
   tool = vimdiff
 
 [init]
-  templatedir = false
+  templatedir =
 
 [mergetool]
   prompt = false
