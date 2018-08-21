@@ -431,8 +431,12 @@ mkdir -p ~/Code/golang;ok
 ###
 runner "Setting up Ruby"
 ###
+doing "initializing rbenv..."
+rbenv init > /dev/null 2>&1;ok
 doing "installing ruby 2.5.1..."
 rbenv install -f 2.5.1 > /dev/null 2>&1;ok
+doing "rehasing rbenv shims..."
+rbenv rehash > /dev/null 2>&1;ok
 doing "setting new ruby version to global..."
 rbenv global 2.5.1 > /dev/null 2>&1;ok
 

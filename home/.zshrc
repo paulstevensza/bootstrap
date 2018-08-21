@@ -103,3 +103,6 @@ LC_ALL=en_US.UTF-8
 # pyenv initialization
 eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
+
+# rbenv initialization
+eval "$(rbenv init -)"
